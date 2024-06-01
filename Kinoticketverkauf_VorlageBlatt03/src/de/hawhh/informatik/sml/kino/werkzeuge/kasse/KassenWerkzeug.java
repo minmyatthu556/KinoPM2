@@ -66,41 +66,22 @@ public class KassenWerkzeug
     /**
      * Erzeugt und registriert die Beobachter, die die Subwerkzeuge beobachten.
      */
+    // TODO hier
     private void erzeugeListenerFuerSubwerkzeuge()
     {
-        _datumAuswaehlWerkzeug.registriereBeobachter(new SubwerkzeugObserver()
-        {
-            @Override
-            public void reagiereAufAenderung()
-            {
-                setzeTagesplanFuerAusgewaehltesDatum();
-            }
-        });
+        _datumAuswaehlWerkzeug.registriereBeobachter(() -> setzeTagesplanFuerAusgewaehltesDatum());
 
         _vorstellungAuswaehlWerkzeug
-                .registriereBeobachter(new SubwerkzeugObserver()
-                {
-                    @Override
-                    public void reagiereAufAenderung()
-                    {
-                        setzeAusgewaehlteVorstellung();
-                    }
-                });
+                .registriereBeobachter(() -> setzeAusgewaehlteVorstellung());
     }
 
     /**
      * Fügt die Funktionalitat zum Beenden-Button hinzu.
      */
+    // TODO hier
     private void registriereUIAktionen()
     {
-        _ui.getBeendenButton().setOnAction(new EventHandler<ActionEvent>()
-        {
-            @Override
-            public void handle(ActionEvent ae)
-            {
-                _ui.schliesseFenster();
-            }
-        });
+        _ui.getBeendenButton().setOnAction(ae -> _ui.schliesseFenster());
     }
 
     /**

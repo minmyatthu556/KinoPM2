@@ -51,34 +51,15 @@ public class PlatzVerkaufsWerkzeug
     /**
      * Fügt der UI die Funktionalität hinzu mit entsprechenden Listenern.
      */
+    // TODO hier
     private void registriereUIAktionen()
     {
+        _ui.getVerkaufenButton().setOnAction(ae -> verkaufePlaetze(_vorstellung));
 
-        _ui.getVerkaufenButton().setOnAction(new EventHandler<ActionEvent>()
-        {
-            @Override
-            public void handle(ActionEvent ae)
-            {
-                verkaufePlaetze(_vorstellung);
-            }
-        });
+        _ui.getStornierenButton().setOnAction(ae -> stornierePlaetze(_vorstellung));
 
-        _ui.getStornierenButton().setOnAction(new EventHandler<ActionEvent>()
-        {
-            @Override
-            public void handle(ActionEvent ae)
-            {
-                stornierePlaetze(_vorstellung);
-            }
-        });
-
-        _ui.getPlatzplan().addPlatzSelectionListener(new PlatzSelectionListener()
-        {
-            @Override
-            public void auswahlGeaendert(PlatzSelectionEvent event)
-            {
-                reagiereAufNeuePlatzAuswahl(event.getAusgewaehltePlaetze());
-            }
+        _ui.getPlatzplan().addPlatzSelectionListener(event -> {
+            reagiereAufNeuePlatzAuswahl(event.getAusgewaehltePlaetze());
         });
     }
 

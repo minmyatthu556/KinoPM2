@@ -110,21 +110,13 @@ public class VorstellungsAuswaehlWerkzeug extends ObservableSubwerkzeug
      * Verbindet die fachlichen Aktionen mit den Interaktionselementen der
      * graphischen Benutzungsoberfläche.
      */
+    // TODO hier
     private void registriereUIAktionen()
     {
         _ui.getVorstellungAuswahlList().getSelectionModel()
                 .selectedItemProperty()
-                .addListener(new ChangeListener<VorstellungsFormatierer>()
-                {
-                    @Override
-                    public void changed(
-                            ObservableValue<? extends VorstellungsFormatierer> arg0,
+                .addListener((ObservableValue<? extends VorstellungsFormatierer> arg0,
                             VorstellungsFormatierer arg1,
-                            VorstellungsFormatierer arg2)
-                    {
-                        vorstellungWurdeAusgewaehlt();
-                    }
-
-                });
+                            VorstellungsFormatierer arg2) -> vorstellungWurdeAusgewaehlt());
     }
 }
