@@ -136,7 +136,6 @@ public class BezahlungsWerkzeug
         EventHandler<KeyEvent> enterHandler = ke -> {
             if (ke.getCode() == KeyCode.ENTER)
             {
-                System.out.println("Enter gedrückt");
                 _ui.getVerkauf().fire();
             }
         };
