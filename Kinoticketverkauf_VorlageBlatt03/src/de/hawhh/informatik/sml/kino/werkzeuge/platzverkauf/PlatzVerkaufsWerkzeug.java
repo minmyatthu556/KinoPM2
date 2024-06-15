@@ -1,8 +1,9 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.platzverkauf;
 
 import java.util.Set;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
+import de.hawhh.informatik.sml.kino.fachwerte.Geldbetrag;
+import de.hawhh.informatik.sml.kino.werkzeuge.bezahlung.BezahlungsWerkzeug;
 import javafx.scene.layout.Pane;
 import de.hawhh.informatik.sml.kino.fachwerte.Platz;
 import de.hawhh.informatik.sml.kino.materialien.Kinosaal;
@@ -19,12 +20,14 @@ import de.hawhh.informatik.sml.kino.materialien.Vorstellung;
  * @author SE2-Team (Uni HH), PM2-Team
  * @version SoSe 2024
  */
-public class PlatzVerkaufsWerkzeug
+public class PlatzVerkaufsWerkzeug implements VerkaufBeobachter
 {
     // Die aktuelle Vorstellung, deren Plätze angezeigt werden. Kann null sein.
     private Vorstellung _vorstellung;
 
     private PlatzVerkaufsWerkzeugUI _ui;
+
+    private Set<Platz> _ausgewaehltePlaetze;
 
     /**
      * Initialisiert das PlatzVerkaufsWerkzeug.
@@ -32,6 +35,7 @@ public class PlatzVerkaufsWerkzeug
     public PlatzVerkaufsWerkzeug()
     {
         _ui = new PlatzVerkaufsWerkzeugUI();
+
         registriereUIAktionen();
         // Am Anfang wird keine Vorstellung angezeigt:
         setVorstellung(null);
@@ -85,7 +89,8 @@ public class PlatzVerkaufsWerkzeug
         if (istVerkaufenMoeglich(plaetze))
         {
             int preis = _vorstellung.getPreisFuerPlaetze(plaetze);
-            _ui.getPreisLabel().setText("Gesamtpreis: " + preis + " Eurocent");
+            Geldbetrag preisGeldbetrag = new Geldbetrag(preis);
+            _ui.getPreisLabel().setText("Gesamtpreis: " + preisGeldbetrag.getFormatiertenString() + " €");
         }
         else
         {
@@ -146,13 +151,20 @@ public class PlatzVerkaufsWerkzeug
     }
 
     /**
-     * Verkauft die ausgewählten Plaetze.
+     * Verkauft die ausgewählten Plätze. Hierbei wird ein neues BezahlungsWerkzeug erstellt und die UI angezeigt.
+     *
+     * @param vorstellung Die Vorstellung, für die Plätze verkauft werden sollen.
      */
     private void verkaufePlaetze(Vorstellung vorstellung)
     {
-        Set<Platz> plaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
-        vorstellung.verkaufePlaetze(plaetze);
-        aktualisierePlatzplan();
+        _ausgewaehltePlaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
+
+        _vorstellung = vorstellung;
+        int gesamtpreis = _vorstellung.getPreisFuerPlaetze(_ausgewaehltePlaetze);
+
+        BezahlungsWerkzeug bezahlungsWerkzeug = new BezahlungsWerkzeug(gesamtpreis);
+        bezahlungsWerkzeug.registriereBeobachter(this);
+        bezahlungsWerkzeug.zeigeUI();
     }
 
     /**
@@ -162,6 +174,12 @@ public class PlatzVerkaufsWerkzeug
     {
         Set<Platz> plaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
         vorstellung.stornierePlaetze(plaetze);
+        aktualisierePlatzplan();
+    }
+
+    @Override
+    public void verkaufWurdeDurchgefuehrt() {
+        _vorstellung.verkaufePlaetze(_ausgewaehltePlaetze);
         aktualisierePlatzplan();
     }
 }
