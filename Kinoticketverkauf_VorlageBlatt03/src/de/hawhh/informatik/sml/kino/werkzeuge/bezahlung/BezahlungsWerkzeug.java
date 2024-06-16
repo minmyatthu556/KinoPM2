@@ -2,7 +2,7 @@ package de.hawhh.informatik.sml.kino.werkzeuge.bezahlung;
 
 import de.hawhh.informatik.sml.kino.fachwerte.Geldbetrag;
 import de.hawhh.informatik.sml.kino.werkzeuge.erfolgreichebezahlung.ErfolgreicheBezahlungsWerkzeug;
-import de.hawhh.informatik.sml.kino.werkzeuge.platzverkauf.VerkaufBeobachter;
+import de.hawhh.informatik.sml.kino.werkzeuge.platzverkauf.VerkaufListener;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
@@ -22,9 +22,9 @@ public class BezahlungsWerkzeug
 
     private Geldbetrag _preisGeldBetrag;
 
-    private List<VerkaufBeobachter> _beobachter;
+    private List<VerkaufListener> _beobachter;
 
-    private ErfolgreicheBezahlungsWerkzeug _erfolgreicheBezahlungsWerkzeug;
+    private ErfolgreicheBezahlungsWerkzeug _eb;
 
     /**
      * Erstellt ein neues BezahlungsWerkzeug.
@@ -39,8 +39,8 @@ public class BezahlungsWerkzeug
         _beobachter = new ArrayList<>();
 
 
-        reagierteAufVerkaufen();
-        reagierteAufBeenden();
+        verkaufenWurdeGedrueckt();
+        beendenWurdeGedrueckt();
         reagiereAufEnter();
         reagiereAufEscape();
     }
@@ -50,7 +50,7 @@ public class BezahlungsWerkzeug
      *
      * @param beobachter Der Beobachter, der registriert werden soll.
      */
-    public void registriereBeobachter(VerkaufBeobachter beobachter)
+    public void registriereBeobachter(VerkaufListener beobachter)
     {
         _beobachter.add(beobachter);
     }
@@ -60,7 +60,7 @@ public class BezahlungsWerkzeug
      */
     private void informiereUeberAenderung()
     {
-        for (VerkaufBeobachter beobachter : _beobachter)
+        for (VerkaufListener beobachter : _beobachter)
         {
             beobachter.verkaufWurdeDurchgefuehrt();
         }
@@ -69,7 +69,7 @@ public class BezahlungsWerkzeug
     /**
      * Reagiert auf das Klicken des Verkauf-Buttons.
      */
-    public void reagierteAufVerkaufen()
+    public void verkaufenWurdeGedrueckt()
     {
         _ui.getVerkauf().setOnAction(ae ->
         {
@@ -102,10 +102,10 @@ public class BezahlungsWerkzeug
 
                 if (betrag >= _preis)
                     {
-                        _erfolgreicheBezahlungsWerkzeug = new ErfolgreicheBezahlungsWerkzeug(rueckgeld);
+                        _eb = new ErfolgreicheBezahlungsWerkzeug(rueckgeld);
                         informiereUeberAenderung();
                         _ui.close();
-                        _erfolgreicheBezahlungsWerkzeug.zeigeUI();
+                        _eb.zeigeUI();
                     }
                 else
                 {
@@ -122,7 +122,7 @@ public class BezahlungsWerkzeug
     /**
      * Reagiert auf das Klicken des Beenden-Buttons.
      */
-    public void reagierteAufBeenden()
+    public void beendenWurdeGedrueckt()
     {
         _ui.getBeenden().setOnAction(ae ->
         {

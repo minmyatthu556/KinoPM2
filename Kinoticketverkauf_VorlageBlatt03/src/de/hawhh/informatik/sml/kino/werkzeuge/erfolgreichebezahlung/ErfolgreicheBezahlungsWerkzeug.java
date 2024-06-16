@@ -20,14 +20,14 @@ public class ErfolgreicheBezahlungsWerkzeug
     {
         _rueckgeld = new Geldbetrag(rueckgeld);
         _ui = new ErfolgreicheBezahlungsWerkzeugUI("Erfolgreicher Verkauf", _rueckgeld);
-        reagiereAufOK();
+        okWurdeGedrueckt();
         reagiereAufEnter();
     }
 
     /**
      * Reagiert auf das Klicken des OK-Buttons.
      */
-    public void reagiereAufOK()
+    public void okWurdeGedrueckt()
     {
         _ui.getOKButton().setOnAction(ae -> _ui.close());
     }

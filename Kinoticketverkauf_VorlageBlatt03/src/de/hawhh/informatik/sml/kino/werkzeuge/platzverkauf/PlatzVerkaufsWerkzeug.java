@@ -20,7 +20,7 @@ import de.hawhh.informatik.sml.kino.materialien.Vorstellung;
  * @author SE2-Team (Uni HH), PM2-Team
  * @version SoSe 2024
  */
-public class PlatzVerkaufsWerkzeug implements VerkaufBeobachter
+public class PlatzVerkaufsWerkzeug implements VerkaufListener
 {
     // Die aktuelle Vorstellung, deren Plätze angezeigt werden. Kann null sein.
     private Vorstellung _vorstellung;
