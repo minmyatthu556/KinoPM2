@@ -3,7 +3,7 @@ package de.hawhh.informatik.sml.kino.werkzeuge.platzverkauf;
 import java.util.Set;
 
 import de.hawhh.informatik.sml.kino.fachwerte.Geldbetrag;
-import de.hawhh.informatik.sml.kino.werkzeuge.bezahlung.BezahlungsWerkzeug;
+import de.hawhh.informatik.sml.kino.werkzeuge.bezahlung.BarzahlungsWerkzeug;
 import javafx.scene.layout.Pane;
 import de.hawhh.informatik.sml.kino.fachwerte.Platz;
 import de.hawhh.informatik.sml.kino.materialien.Kinosaal;
@@ -20,7 +20,7 @@ import de.hawhh.informatik.sml.kino.materialien.Vorstellung;
  * @author SE2-Team (Uni HH), PM2-Team
  * @version SoSe 2024
  */
-public class PlatzVerkaufsWerkzeug implements VerkaufListener
+public class PlatzVerkaufsWerkzeug
 {
     // Die aktuelle Vorstellung, deren Plätze angezeigt werden. Kann null sein.
     private Vorstellung _vorstellung;
@@ -89,7 +89,7 @@ public class PlatzVerkaufsWerkzeug implements VerkaufListener
         if (istVerkaufenMoeglich(plaetze))
         {
             int preis = _vorstellung.getPreisFuerPlaetze(plaetze);
-            Geldbetrag preisGeldbetrag = new Geldbetrag(preis);
+            Geldbetrag preisGeldbetrag = Geldbetrag.get(preis);
             _ui.getPreisLabel().setText("Gesamtpreis: " + preisGeldbetrag.getFormatiertenString() + " €");
         }
         else
@@ -162,9 +162,13 @@ public class PlatzVerkaufsWerkzeug implements VerkaufListener
         _vorstellung = vorstellung;
         int gesamtpreis = _vorstellung.getPreisFuerPlaetze(_ausgewaehltePlaetze);
 
-        BezahlungsWerkzeug bezahlungsWerkzeug = new BezahlungsWerkzeug(gesamtpreis);
-        bezahlungsWerkzeug.registriereBeobachter(this);
-        bezahlungsWerkzeug.zeigeUI();
+        BarzahlungsWerkzeug barzahlungsWerkzeug = new BarzahlungsWerkzeug(gesamtpreis);
+        barzahlungsWerkzeug.zeigeUI();
+        if (barzahlungsWerkzeug.istBezahlt())
+        {
+            vorstellung.verkaufePlaetze(_ausgewaehltePlaetze);
+            aktualisierePlatzplan();
+        }
     }
 
     /**
@@ -174,12 +178,6 @@ public class PlatzVerkaufsWerkzeug implements VerkaufListener
     {
         Set<Platz> plaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
         vorstellung.stornierePlaetze(plaetze);
-        aktualisierePlatzplan();
-    }
-
-    @Override
-    public void verkaufWurdeDurchgefuehrt() {
-        _vorstellung.verkaufePlaetze(_ausgewaehltePlaetze);
         aktualisierePlatzplan();
     }
 }

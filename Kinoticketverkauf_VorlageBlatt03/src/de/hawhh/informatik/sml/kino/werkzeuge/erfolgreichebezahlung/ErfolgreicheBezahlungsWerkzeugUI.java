@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -29,6 +30,7 @@ public class ErfolgreicheBezahlungsWerkzeugUI
     public ErfolgreicheBezahlungsWerkzeugUI(String title, Geldbetrag rueckgeld)
     {
         _stage = new Stage();
+        _stage.initModality(Modality.APPLICATION_MODAL);
         _stage.setTitle(title);
 
        VBox pane = new VBox();
@@ -56,7 +58,7 @@ public class ErfolgreicheBezahlungsWerkzeugUI
      */
     public void zeigeAn()
     {
-        _stage.show();
+        _stage.showAndWait();
     }
 
     /**

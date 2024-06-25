@@ -18,7 +18,7 @@ public class ErfolgreicheBezahlungsWerkzeug
      */
     public ErfolgreicheBezahlungsWerkzeug(int rueckgeld)
     {
-        _rueckgeld = new Geldbetrag(rueckgeld);
+        _rueckgeld = Geldbetrag.get(rueckgeld);
         _ui = new ErfolgreicheBezahlungsWerkzeugUI("Erfolgreicher Verkauf", _rueckgeld);
         okWurdeGedrueckt();
         reagiereAufEnter();

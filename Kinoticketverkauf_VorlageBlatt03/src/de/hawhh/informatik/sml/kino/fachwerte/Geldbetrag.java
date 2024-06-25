@@ -6,7 +6,7 @@ package de.hawhh.informatik.sml.kino.fachwerte;
  * @author SE2-Team, PM2-Team
  * @version SoSe 2024
  */
-public final class Geldbetrag
+public final class Geldbetrag implements Comparable<Geldbetrag>
 {
     private final int _euroAnteil;
     private final int _centAnteil;
@@ -25,7 +25,7 @@ public final class Geldbetrag
         return new Geldbetrag(eurocent);
     }
 
-    public Geldbetrag(int eurocent)
+    private Geldbetrag(int eurocent)
     {
         _euroAnteil = eurocent / 100;
         _centAnteil = eurocent % 100;
@@ -76,6 +76,26 @@ public final class Geldbetrag
         return result;
     }
 
+    public Geldbetrag addiere(Geldbetrag otherGb)
+    {
+        return new Geldbetrag((getEuroAnteil() * 100 + getCentAnteil()) + (otherGb.getEuroAnteil() * 100 + otherGb.getCentAnteil()));
+    }
+
+    public Geldbetrag subtrahiere(Geldbetrag otherGb)
+    {
+        if (compareTo(otherGb) < 0)
+        {
+            throw new IllegalArgumentException("Der resultierende Geldbetrag darf nicht negativ sein.");
+        }
+
+        return new Geldbetrag((getEuroAnteil() * 100 + getCentAnteil()) - (otherGb.getEuroAnteil() * 100 + otherGb.getCentAnteil()));
+    }
+
+    public Geldbetrag multipliziere(int faktor)
+    {
+        return new Geldbetrag((getEuroAnteil() * 100 + getCentAnteil()) * faktor);
+    }
+
     @Override
     public int hashCode()
     {
@@ -106,6 +126,20 @@ public final class Geldbetrag
     public String toString()
     {
         return getFormatiertenString();
+    }
+
+    /**
+     * Vergleicht diesen Geldbetrag mit dem angegebenen Geldbetrag.
+     * Das Ergebnis ist negativ, wenn dieser Geldbetrag kleiner als der angegebene Geldbetrag ist.
+     * Das Ergebnis ist positiv, wenn dieser Geldbetrag größer als der angegebene Geldbetrag ist.
+     * Das Ergebnis ist null, wenn beide Geldbeträge gleich sind.
+     *
+     * @param o Der zu vergleichende Geldbetrag.
+     * @return Ein negativer Integer, null oder ein positiver Integer, je nachdem, ob dieser Geldbetrag kleiner, gleich oder größer als der angegebene Geldbetrag ist.
+     */
+    @Override
+    public int compareTo(Geldbetrag o) {
+        return (_euroAnteil * 100 + _centAnteil) - (o._euroAnteil * 100 + o._centAnteil);
     }
 }
 

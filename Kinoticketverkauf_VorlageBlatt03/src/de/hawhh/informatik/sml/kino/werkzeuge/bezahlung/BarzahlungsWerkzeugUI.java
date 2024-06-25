@@ -1,17 +1,19 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.bezahlung;
 
+import de.hawhh.informatik.sml.kino.fachwerte.Geldbetrag;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
  * Die Klasse BezahlungsWerkzeugUI stellt die Benutzeroberfläche für das Bezahlungswerkzeug bereit.
  */
-public class BezahlungsWerkzeugUI
+public class BarzahlungsWerkzeugUI
 {
     private Stage _stage;
     private Button _verkauf;
@@ -25,9 +27,10 @@ public class BezahlungsWerkzeugUI
      * @param title Der Titel des Fensters.
      * @param preis Der Preis, der angezeigt werden soll.
      */
-    public BezahlungsWerkzeugUI(String title, String preis)
+    public BarzahlungsWerkzeugUI(String title, String preis)
     {
         _stage = new Stage();
+        _stage.initModality(Modality.APPLICATION_MODAL);
         _stage.setTitle(title);
 
         GridPane pane = new GridPane();
@@ -49,8 +52,15 @@ public class BezahlungsWerkzeugUI
 
         pane.getChildren().addAll(preisLabel, zahlungslabel, _gegeben, _verkauf, _beenden);
 
+        _verkauf.setDisable(true);
+
         _scene = new Scene(pane);
         _stage.setScene(_scene);
+    }
+
+    public void setVerkaufButtonDisabled(boolean disabled)
+    {
+    _verkauf.setDisable(disabled);
     }
 
     /**
@@ -78,7 +88,7 @@ public class BezahlungsWerkzeugUI
      */
     public void zeigeAn()
     {
-        _stage.show();
+        _stage.showAndWait();
     }
 
     /**

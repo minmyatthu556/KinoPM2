@@ -1,21 +1,18 @@
 package de.hawhh.informatik.sml.kino.fachwerte;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 /**
  * @author SE2-Team, PM2-Team
  * @version SoSe 2024
  *
  */
-public class GeldbetragTest
-{
+public class GeldbetragTest {
 
     @Test
-    public final void testGeldbetrag()
-    {
+    public final void testGeldbetrag() {
         Geldbetrag betrag = Geldbetrag.get(100);
         assertEquals(1, betrag.getEuroAnteil());
         assertEquals(0, betrag.getCentAnteil());
@@ -38,8 +35,7 @@ public class GeldbetragTest
     }
 
     @Test
-    public final void testEqualsHashcode()
-    {
+    public final void testEqualsHashcode() {
         Geldbetrag betrag1 = Geldbetrag.get(100);
         Geldbetrag betrag2 = Geldbetrag.get(100);
         assertTrue(betrag1.equals(betrag2));
@@ -52,5 +48,54 @@ public class GeldbetragTest
         Geldbetrag betrag4 = Geldbetrag.get(1000);
         assertFalse(betrag1.equals(betrag4));
         assertFalse(betrag1.hashCode() == betrag4.hashCode());
+    }
+
+    @Test
+    public final void testCompareTo() {
+        Geldbetrag betrag1 = Geldbetrag.get(100);
+        Geldbetrag betrag2 = Geldbetrag.get(100);
+        assertEquals(0, betrag1.compareTo(betrag2));
+
+        Geldbetrag betrag3 = Geldbetrag.get(200);
+        assertTrue(betrag1.compareTo(betrag3) < 0);
+
+        Geldbetrag betrag4 = Geldbetrag.get(50);
+        assertTrue(betrag1.compareTo(betrag4) > 0);
+    }
+
+    @Test
+    public final void testAddiere()
+    {
+        Geldbetrag betrag1 = Geldbetrag.get(100);
+        Geldbetrag betrag2 = Geldbetrag.get(100);
+        assertEquals(Geldbetrag.get(200), betrag1.addiere(betrag2));
+
+        Geldbetrag betrag3 = Geldbetrag.get(50);
+        assertEquals(Geldbetrag.get(150), betrag1.addiere(betrag3));
+    }
+
+    @Test
+    public final void testSubtrahiere()
+    {
+        Geldbetrag betrag1 = Geldbetrag.get(100);
+        Geldbetrag betrag2 = Geldbetrag.get(100);
+        assertEquals(Geldbetrag.get(0), betrag1.subtrahiere(betrag2));
+
+        Geldbetrag betrag3 = Geldbetrag.get(50);
+        assertEquals(Geldbetrag.get(50), betrag1.subtrahiere(betrag3));
+
+        Geldbetrag betrag4 = Geldbetrag.get(150);
+        assertThrows(IllegalArgumentException.class, () -> betrag1.subtrahiere(betrag4));
+    }
+
+    @Test
+    public final void testMultipliziere()
+    {
+        Geldbetrag betrag1 = Geldbetrag.get(100);
+        assertEquals(Geldbetrag.get(200), betrag1.multipliziere(2));
+
+        assertEquals(Geldbetrag.get(100), betrag1.multipliziere(1));
+
+        assertEquals(Geldbetrag.get(0), betrag1.multipliziere(0));
     }
 }
