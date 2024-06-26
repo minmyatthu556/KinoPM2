@@ -394,6 +394,11 @@ public class Vorstellung
         return ausgewaehltePlaetze;
     }
 
+    public void deselektiereAllePlaetze()
+    {
+        _ausgewaehlt = new boolean[_kinosaal.getAnzahlReihen()][_kinosaal.getAnzahlSitzeProReihe()];
+    }
+
     @Override
     public String toString()
     {

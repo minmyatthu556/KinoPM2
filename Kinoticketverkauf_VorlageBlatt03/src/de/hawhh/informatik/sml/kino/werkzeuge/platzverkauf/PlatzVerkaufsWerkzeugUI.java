@@ -26,6 +26,7 @@ class PlatzVerkaufsWerkzeugUI
     private Label _preisLabel;
     private Button _verkaufenButton;
     private Button _stornierenButton;
+    private Button _deselektierenButton;
     private Platzplan _platzplan;
 
     /**
@@ -66,11 +67,13 @@ class PlatzVerkaufsWerkzeugUI
 
         FlowPane buttonPane = new FlowPane();
         buttonPane.setAlignment(Pos.CENTER_RIGHT);
+        _deselektierenButton = new Button("Deselektieren");
         _verkaufenButton = new Button("Verkaufen");
         _stornierenButton = new Button("Stornieren");
+
         buttonPane.setHgap(10);
         buttonPane.setPadding(new Insets(10));
-        buttonPane.getChildren().addAll(_verkaufenButton, _stornierenButton);
+        buttonPane.getChildren().addAll(_deselektierenButton, _verkaufenButton, _stornierenButton);
 
         southPane.setLeft(preisPane);
         southPane.setRight(buttonPane);
@@ -110,6 +113,11 @@ class PlatzVerkaufsWerkzeugUI
     public Button getVerkaufenButton()
     {
         return _verkaufenButton;
+    }
+
+    public Button getDeselektButton()
+    {
+        return _deselektierenButton;
     }
 
     /**

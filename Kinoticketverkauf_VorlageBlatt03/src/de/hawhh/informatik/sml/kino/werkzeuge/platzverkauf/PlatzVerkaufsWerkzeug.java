@@ -39,6 +39,7 @@ public class PlatzVerkaufsWerkzeug
         registriereUIAktionen();
         // Am Anfang wird keine Vorstellung angezeigt:
         setVorstellung(null);
+
     }
 
     /**
@@ -62,6 +63,8 @@ public class PlatzVerkaufsWerkzeug
 
         _ui.getStornierenButton().setOnAction(ae -> stornierePlaetze(_vorstellung));
 
+        _ui.getDeselektButton().setOnAction(ae -> deselektierePlaetze(_vorstellung));
+
         _ui.getPlatzplan().addPlatzSelectionListener(event -> {
             reagiereAufNeuePlatzAuswahl(event.getAusgewaehltePlaetze(), event.getGeklicktenPlatz());
         });
@@ -77,6 +80,7 @@ public class PlatzVerkaufsWerkzeug
     {
         _ui.getVerkaufenButton().setDisable(!istVerkaufenMoeglich(plaetze));
         _ui.getStornierenButton().setDisable(!istStornierenMoeglich(plaetze));
+        _ui.getDeselektButton().setDisable(plaetze.isEmpty());
         if (_vorstellung != null)
         {
             updateSelectedUI(plaetze, platz);
@@ -155,6 +159,7 @@ public class PlatzVerkaufsWerkzeug
             aktualisierePreisanzeige(_ui.getPlatzplan().getAusgewaehltePlaetze());
             if (!_vorstellung.getAusgewaehltePlaetze().isEmpty())
             {
+                _ui.getDeselektButton().setDisable(false);
                 _ui.getVerkaufenButton().setDisable(!istVerkaufenMoeglich(_vorstellung.getAusgewaehltePlaetze()));
                 _ui.getStornierenButton().setDisable(!istStornierenMoeglich(_vorstellung.getAusgewaehltePlaetze()));
             }
@@ -199,6 +204,12 @@ public class PlatzVerkaufsWerkzeug
     {
         Set<Platz> plaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
         vorstellung.stornierePlaetze(plaetze);
+        aktualisierePlatzplan();
+    }
+
+    private void deselektierePlaetze(Vorstellung vorstellung)
+    {
+        vorstellung.deselektiereAllePlaetze();
         aktualisierePlatzplan();
     }
 }
