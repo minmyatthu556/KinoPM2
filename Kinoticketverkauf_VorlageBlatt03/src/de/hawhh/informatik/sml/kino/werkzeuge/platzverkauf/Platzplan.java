@@ -83,6 +83,7 @@ class Platzplan extends GridPane
                     button.setAusgewaehlt(true);
                     informiereSelectionListener(_ausgewaehltePlaetze);
                 }
+                System.out.println(_ausgewaehltePlaetze);
             }
         };
     }
@@ -247,4 +248,13 @@ class Platzplan extends GridPane
         // repaint();
     }
 
+    public void updateAusgewaehltePlaetze(Set<Platz> plaetze)
+    {
+        _ausgewaehltePlaetze = plaetze;
+    }
+
+    public void markierePlatzAlsAusgewaehlt(Platz platz)
+    {
+        _buttons[platz.getReihenNr()][platz.getSitzNr()].setAusgewaehlt(true);
+    }
 }

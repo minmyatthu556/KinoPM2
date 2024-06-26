@@ -1,5 +1,6 @@
 package de.hawhh.informatik.sml.kino.materialien;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import de.hawhh.informatik.sml.kino.fachwerte.Datum;
@@ -25,6 +26,7 @@ public class Vorstellung
     private int _preis;
     private boolean[][] _verkauft;
     private int _anzahlVerkauftePlaetze;
+    private boolean[][] _ausgewaehlt;
 
     /**
      * Erstellt eine neue Vorstellung.
@@ -68,6 +70,8 @@ public class Vorstellung
         _verkauft = new boolean[kinosaal.getAnzahlReihen()][kinosaal
                 .getAnzahlSitzeProReihe()];
         _anzahlVerkauftePlaetze = 0;
+
+        _ausgewaehlt = new boolean[kinosaal.getAnzahlReihen()][kinosaal.getAnzahlSitzeProReihe()];
     }
 
     /**
@@ -340,6 +344,53 @@ public class Vorstellung
             result &= istPlatzVerkauft(platz);
         }
         return result;
+    }
+
+    public void setSelect(Set<Platz> plaetze)
+    {
+        for (Platz p : plaetze)
+        {
+            _ausgewaehlt[p.getReihenNr()][p.getSitzNr()] = true;
+        }
+    }
+
+    public void updateSelect(Set<Platz> plaetze)
+    {
+        for (Platz p : plaetze)
+        {
+            _ausgewaehlt[p.getReihenNr()][p.getSitzNr()] = !_ausgewaehlt[p.getReihenNr()][p.getSitzNr()];
+        }
+    }
+
+    public void selectPlatz(Platz p)
+    {
+        _ausgewaehlt[p.getReihenNr()][p.getSitzNr()] = true;
+    }
+
+    public void deselectPlatz(Platz p)
+    {
+        _ausgewaehlt[p.getReihenNr()][p.getSitzNr()] = false;
+    }
+
+    public boolean istPlatzAusgewaehlt(Platz p)
+    {
+        return _ausgewaehlt[p.getReihenNr()][p.getSitzNr()];
+    }
+
+    public Set<Platz> getAusgewaehltePlaetze()
+    {
+        Set<Platz> ausgewaehltePlaetze = new HashSet<>();
+        for (int i = 0; i < _ausgewaehlt.length; i++)
+        {
+            for (int j = 0; j < _ausgewaehlt[i].length; j++)
+            {
+                if (_ausgewaehlt[i][j])
+                {
+                    ausgewaehltePlaetze.add(Platz.get(i, j));
+                }
+            }
+        }
+        return ausgewaehltePlaetze;
     }
 
     @Override

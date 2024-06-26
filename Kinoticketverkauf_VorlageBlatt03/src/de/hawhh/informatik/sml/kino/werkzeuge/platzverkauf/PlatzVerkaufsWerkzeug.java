@@ -1,5 +1,6 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.platzverkauf;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import de.hawhh.informatik.sml.kino.fachwerte.Geldbetrag;
@@ -77,6 +78,10 @@ public class PlatzVerkaufsWerkzeug
     {
         _ui.getVerkaufenButton().setDisable(!istVerkaufenMoeglich(plaetze));
         _ui.getStornierenButton().setDisable(!istStornierenMoeglich(plaetze));
+        if (_vorstellung != null)
+        {
+            updateSelectedUI(_vorstellung);
+        }
         aktualisierePreisanzeige(plaetze);
     }
 
@@ -123,6 +128,7 @@ public class PlatzVerkaufsWerkzeug
     {
         _vorstellung = vorstellung;
         aktualisierePlatzplan();
+
     }
 
     /**
@@ -132,6 +138,7 @@ public class PlatzVerkaufsWerkzeug
     {
         if (_vorstellung != null)
         {
+
             Kinosaal saal = _vorstellung.getKinosaal();
             _ui.getPlatzplan().setAnzahlPlaetze(saal.getAnzahlReihen(),
                     saal.getAnzahlSitzeProReihe());
@@ -142,7 +149,13 @@ public class PlatzVerkaufsWerkzeug
                 {
                     _ui.getPlatzplan().markierePlatzAlsVerkauft(platz);
                 }
+                if (_vorstellung.istPlatzAusgewaehlt(platz))
+                {
+                    _ui.getPlatzplan().markierePlatzAlsAusgewaehlt(platz);
+                }
             }
+            _ui.getPlatzplan().updateAusgewaehltePlaetze(_vorstellung.getAusgewaehltePlaetze());
+            aktualisierePreisanzeige(_ui.getPlatzplan().getAusgewaehltePlaetze());
         }
         else
         {
@@ -169,6 +182,25 @@ public class PlatzVerkaufsWerkzeug
             vorstellung.verkaufePlaetze(_ausgewaehltePlaetze);
             aktualisierePlatzplan();
         }
+    }
+
+    private void updateSelectedUI(Vorstellung vorstellung)
+    {
+        _vorstellung = vorstellung;
+        _ausgewaehltePlaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
+
+//        for (Platz platz : _ausgewaehltePlaetze)
+//        {
+//            if (_vorstellung.istPlatzAusgewaehlt(platz))
+//            {
+//                _vorstellung.deselectPlatz(platz);
+//            }
+//            else
+//            {
+//                _vorstellung.selectPlatz(platz);
+//            }
+//        }
+        _vorstellung.setSelect(_ausgewaehltePlaetze);
     }
 
     /**
