@@ -346,19 +346,18 @@ public class Vorstellung
         return result;
     }
 
-    public void setSelect(Set<Platz> plaetze)
+    public void updateAusgewaehltePlaetze(Set<Platz> plaetze, Platz platz)
     {
-        for (Platz p : plaetze)
-        {
-            _ausgewaehlt[p.getReihenNr()][p.getSitzNr()] = true;
-        }
-    }
+        Set<Platz> vorherigeAusgewaehltePlaetze = getAusgewaehltePlaetze();
 
-    public void updateSelect(Set<Platz> plaetze)
-    {
+        if (vorherigeAusgewaehltePlaetze.contains(platz))
+        {
+            deselectPlatz(platz);
+        }
+
         for (Platz p : plaetze)
         {
-            _ausgewaehlt[p.getReihenNr()][p.getSitzNr()] = !_ausgewaehlt[p.getReihenNr()][p.getSitzNr()];
+            selectPlatz(p);
         }
     }
 

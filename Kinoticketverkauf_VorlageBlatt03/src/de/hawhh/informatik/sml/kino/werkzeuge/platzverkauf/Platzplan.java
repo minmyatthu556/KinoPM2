@@ -75,15 +75,14 @@ class Platzplan extends GridPane
                 {
                     _ausgewaehltePlaetze.remove(platz);
                     button.setAusgewaehlt(false);
-                    informiereSelectionListener(_ausgewaehltePlaetze);
+                    informiereSelectionListener(_ausgewaehltePlaetze, platz);
                 }
                 else
                 {
                     _ausgewaehltePlaetze.add(platz);
                     button.setAusgewaehlt(true);
-                    informiereSelectionListener(_ausgewaehltePlaetze);
+                    informiereSelectionListener(_ausgewaehltePlaetze, platz);
                 }
-                System.out.println(_ausgewaehltePlaetze);
             }
         };
     }
@@ -114,10 +113,10 @@ class Platzplan extends GridPane
      * 
      * @param ausgewaehltePlaetze die neue Auswahl.
      */
-    private void informiereSelectionListener(Set<Platz> ausgewaehltePlaetze)
+    private void informiereSelectionListener(Set<Platz> ausgewaehltePlaetze, Platz platz)
     {
         PlatzSelectionEvent event = new PlatzSelectionEvent(this,
-                ausgewaehltePlaetze);
+                ausgewaehltePlaetze, platz);
         for (PlatzSelectionListener listener : _selectionListener)
         {
             listener.auswahlGeaendert(event);
@@ -178,7 +177,7 @@ class Platzplan extends GridPane
 
         // Nach der Änderung ist kein Platz ausgewählt
         _ausgewaehltePlaetze.clear();
-        informiereSelectionListener(_ausgewaehltePlaetze);
+        informiereSelectionListener(_ausgewaehltePlaetze, null);
     }
 
     private void addGrowableRowConstraint()
@@ -256,5 +255,10 @@ class Platzplan extends GridPane
     public void markierePlatzAlsAusgewaehlt(Platz platz)
     {
         _buttons[platz.getReihenNr()][platz.getSitzNr()].setAusgewaehlt(true);
+    }
+
+    public boolean getIstAufgeruft()
+    {
+        return _isCalled;
     }
 }

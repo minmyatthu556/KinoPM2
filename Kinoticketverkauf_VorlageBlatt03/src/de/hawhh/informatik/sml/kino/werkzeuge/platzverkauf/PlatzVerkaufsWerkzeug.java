@@ -1,6 +1,5 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.platzverkauf;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import de.hawhh.informatik.sml.kino.fachwerte.Geldbetrag;
@@ -56,15 +55,15 @@ public class PlatzVerkaufsWerkzeug
     /**
      * Fügt der UI die Funktionalität hinzu mit entsprechenden Listenern.
      */
-    // TODO hier
     private void registriereUIAktionen()
     {
+
         _ui.getVerkaufenButton().setOnAction(ae -> verkaufePlaetze(_vorstellung));
 
         _ui.getStornierenButton().setOnAction(ae -> stornierePlaetze(_vorstellung));
 
         _ui.getPlatzplan().addPlatzSelectionListener(event -> {
-            reagiereAufNeuePlatzAuswahl(event.getAusgewaehltePlaetze());
+            reagiereAufNeuePlatzAuswahl(event.getAusgewaehltePlaetze(), event.getGeklicktenPlatz());
         });
     }
 
@@ -74,13 +73,13 @@ public class PlatzVerkaufsWerkzeug
      * 
      * @param plaetze die jetzt ausgewählten Plätze.
      */
-    private void reagiereAufNeuePlatzAuswahl(Set<Platz> plaetze)
+    private void reagiereAufNeuePlatzAuswahl(Set<Platz> plaetze, Platz platz)
     {
         _ui.getVerkaufenButton().setDisable(!istVerkaufenMoeglich(plaetze));
         _ui.getStornierenButton().setDisable(!istStornierenMoeglich(plaetze));
         if (_vorstellung != null)
         {
-            updateSelectedUI(_vorstellung);
+            updateSelectedUI(_vorstellung, platz);
         }
         aktualisierePreisanzeige(plaetze);
     }
@@ -128,7 +127,6 @@ public class PlatzVerkaufsWerkzeug
     {
         _vorstellung = vorstellung;
         aktualisierePlatzplan();
-
     }
 
     /**
@@ -138,7 +136,6 @@ public class PlatzVerkaufsWerkzeug
     {
         if (_vorstellung != null)
         {
-
             Kinosaal saal = _vorstellung.getKinosaal();
             _ui.getPlatzplan().setAnzahlPlaetze(saal.getAnzahlReihen(),
                     saal.getAnzahlSitzeProReihe());
@@ -156,6 +153,11 @@ public class PlatzVerkaufsWerkzeug
             }
             _ui.getPlatzplan().updateAusgewaehltePlaetze(_vorstellung.getAusgewaehltePlaetze());
             aktualisierePreisanzeige(_ui.getPlatzplan().getAusgewaehltePlaetze());
+            if (!_vorstellung.getAusgewaehltePlaetze().isEmpty())
+            {
+                _ui.getVerkaufenButton().setDisable(false);
+            }
+            //System.out.println(_vorstellung.getAusgewaehltePlaetze());
         }
         else
         {
@@ -184,23 +186,19 @@ public class PlatzVerkaufsWerkzeug
         }
     }
 
-    private void updateSelectedUI(Vorstellung vorstellung)
+    private void updateSelectedUI(Vorstellung vorstellung, Platz platz)
     {
         _vorstellung = vorstellung;
         _ausgewaehltePlaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
-
-//        for (Platz platz : _ausgewaehltePlaetze)
-//        {
-//            if (_vorstellung.istPlatzAusgewaehlt(platz))
-//            {
-//                _vorstellung.deselectPlatz(platz);
-//            }
-//            else
-//            {
-//                _vorstellung.selectPlatz(platz);
-//            }
-//        }
-        _vorstellung.setSelect(_ausgewaehltePlaetze);
+//        System.out.println("This is called");
+//        System.out.println(_ausgewaehltePlaetze);
+//        Set<Platz> vorherigeAusgewaehltePlaetze = _vorstellung.getAusgewaehltePlaetze();
+//        System.out.println(vorherigeAusgewaehltePlaetze);
+//        Set<Platz> differenz = new HashSet<>(vorherigeAusgewaehltePlaetze);
+//        differenz.removeAll(_ausgewaehltePlaetze);
+//        System.out.println(differenz);
+//        _vorstellung.setDeselect(differenz);
+        _vorstellung.updateAusgewaehltePlaetze(_ausgewaehltePlaetze, platz);
     }
 
     /**

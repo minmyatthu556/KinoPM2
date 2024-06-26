@@ -17,6 +17,7 @@ import de.hawhh.informatik.sml.kino.fachwerte.Platz;
 class PlatzSelectionEvent extends EventObject
 {
     private Set<Platz> _ausgewaehltePlaetze;
+    private Platz _platz;
 
     /**
      * Erstellt ein neues PlatzSelectionEvent.
@@ -24,10 +25,11 @@ class PlatzSelectionEvent extends EventObject
      * @param source Das Objekt, von dem das Ereignis ausgelöst wurde.
      * @param ausgewaehltePlaetze die Menge der ausgewählten Plätze.
      */
-    public PlatzSelectionEvent(Object source, Set<Platz> ausgewaehltePlaetze)
+    public PlatzSelectionEvent(Object source, Set<Platz> ausgewaehltePlaetze, Platz platz)
     {
         super(source);
         _ausgewaehltePlaetze = new HashSet<Platz>(ausgewaehltePlaetze);
+        _platz = platz;
     }
 
     /**
@@ -36,6 +38,11 @@ class PlatzSelectionEvent extends EventObject
     public Set<Platz> getAusgewaehltePlaetze()
     {
         return _ausgewaehltePlaetze;
+    }
+
+    public Platz getGeklicktenPlatz()
+    {
+        return _platz;
     }
 
     @Override
