@@ -227,6 +227,7 @@ public class Vorstellung
             : "Vorbedingung verletzt: !istPlatzVerkauft(platz)";
 
         _verkauft[platz.getReihenNr()][platz.getSitzNr()] = true;
+        _ausgewaehlt[platz.getReihenNr()][platz.getSitzNr()] = false;
         _anzahlVerkauftePlaetze++;
     }
 
@@ -248,6 +249,7 @@ public class Vorstellung
         assert istPlatzVerkauft(platz) : "Vorbedingung verletzt: istPlatzVerkauft(platz)";
 
         _verkauft[platz.getReihenNr()][platz.getSitzNr()] = false;
+        _ausgewaehlt[platz.getReihenNr()][platz.getSitzNr()] = false;
         _anzahlVerkauftePlaetze--;
     }
 

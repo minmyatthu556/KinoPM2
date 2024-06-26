@@ -155,9 +155,9 @@ public class PlatzVerkaufsWerkzeug
             aktualisierePreisanzeige(_ui.getPlatzplan().getAusgewaehltePlaetze());
             if (!_vorstellung.getAusgewaehltePlaetze().isEmpty())
             {
-                _ui.getVerkaufenButton().setDisable(false);
+                _ui.getVerkaufenButton().setDisable(!istVerkaufenMoeglich(_vorstellung.getAusgewaehltePlaetze()));
+                _ui.getStornierenButton().setDisable(!istStornierenMoeglich(_vorstellung.getAusgewaehltePlaetze()));
             }
-            //System.out.println(_vorstellung.getAusgewaehltePlaetze());
         }
         else
         {
@@ -172,9 +172,9 @@ public class PlatzVerkaufsWerkzeug
      */
     private void verkaufePlaetze(Vorstellung vorstellung)
     {
-        _ausgewaehltePlaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
-
         _vorstellung = vorstellung;
+        _ausgewaehltePlaetze = _vorstellung.getAusgewaehltePlaetze();
+        System.out.println(_ausgewaehltePlaetze);
         int gesamtpreis = _vorstellung.getPreisFuerPlaetze(_ausgewaehltePlaetze);
 
         BarzahlungsWerkzeug barzahlungsWerkzeug = new BarzahlungsWerkzeug(gesamtpreis);
