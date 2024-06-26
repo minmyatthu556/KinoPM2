@@ -79,7 +79,7 @@ public class PlatzVerkaufsWerkzeug
         _ui.getStornierenButton().setDisable(!istStornierenMoeglich(plaetze));
         if (_vorstellung != null)
         {
-            updateSelectedUI(_vorstellung, platz);
+            updateSelectedUI(plaetze, platz);
         }
         aktualisierePreisanzeige(plaetze);
     }
@@ -186,18 +186,9 @@ public class PlatzVerkaufsWerkzeug
         }
     }
 
-    private void updateSelectedUI(Vorstellung vorstellung, Platz platz)
+    private void updateSelectedUI(Set<Platz> plaetze, Platz platz)
     {
-        _vorstellung = vorstellung;
-        _ausgewaehltePlaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
-//        System.out.println("This is called");
-//        System.out.println(_ausgewaehltePlaetze);
-//        Set<Platz> vorherigeAusgewaehltePlaetze = _vorstellung.getAusgewaehltePlaetze();
-//        System.out.println(vorherigeAusgewaehltePlaetze);
-//        Set<Platz> differenz = new HashSet<>(vorherigeAusgewaehltePlaetze);
-//        differenz.removeAll(_ausgewaehltePlaetze);
-//        System.out.println(differenz);
-//        _vorstellung.setDeselect(differenz);
+        _ausgewaehltePlaetze = plaetze;
         _vorstellung.updateAusgewaehltePlaetze(_ausgewaehltePlaetze, platz);
     }
 

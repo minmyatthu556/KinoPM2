@@ -256,9 +256,4 @@ class Platzplan extends GridPane
     {
         _buttons[platz.getReihenNr()][platz.getSitzNr()].setAusgewaehlt(true);
     }
-
-    public boolean getIstAufgeruft()
-    {
-        return _isCalled;
-    }
 }
