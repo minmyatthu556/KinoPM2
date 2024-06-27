@@ -99,8 +99,8 @@ public class BarzahlungsWerkzeug
             _istVerkauft = true;
             _ui.close();
 
-            _eb = new ErfolgreicheBezahlungsWerkzeug(rueckgeld, _istVerkauft);
-            _eb.zeigeUI();
+            //_eb = new ErfolgreicheBezahlungsWerkzeug(rueckgeld, _istVerkauft);
+            //_eb.zeigeUI();
         });
     }
 
