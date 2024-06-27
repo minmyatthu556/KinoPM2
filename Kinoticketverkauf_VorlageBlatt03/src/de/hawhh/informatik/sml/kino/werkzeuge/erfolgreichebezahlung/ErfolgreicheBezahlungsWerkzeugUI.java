@@ -1,6 +1,7 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.erfolgreichebezahlung;
 
 import de.hawhh.informatik.sml.kino.fachwerte.Geldbetrag;
+import de.hawhh.informatik.sml.kino.uicustomization.CustomButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,6 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.util.Currency;
 
 /**
  * Die Klasse ErfolgreicheBezahlungsWerkzeugUI stellt die Benutzeroberfläche für eine erfolgreiche Bezahlung dar.
@@ -46,9 +49,10 @@ public class ErfolgreicheBezahlungsWerkzeugUI
             _rueckgeldLabel = new Label("Summe: -" + rueckgeld + " €");
         }
         _okButton = new Button("OK");
+        CustomButton.setStyle(_okButton, true);
 
-        _stage.setWidth(350);
-        _stage.setHeight(150);
+        _stage.setWidth(450);
+        _stage.setHeight(250);
 
 
         pane.setAlignment(Pos.CENTER);
@@ -58,6 +62,7 @@ public class ErfolgreicheBezahlungsWerkzeugUI
         pane.getChildren().addAll(_message, _rueckgeldLabel, _okButton);
 
         _scene = new Scene(pane);
+        _scene.getStylesheets().add(getClass().getResource("ErfolgreicheBezahlungsWerkzeug.css").toExternalForm());
         _stage.setScene(_scene);
     }
 

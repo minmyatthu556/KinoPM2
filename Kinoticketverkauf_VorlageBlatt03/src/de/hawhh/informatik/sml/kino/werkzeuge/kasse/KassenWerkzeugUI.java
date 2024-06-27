@@ -1,5 +1,6 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.kasse;
 
+import de.hawhh.informatik.sml.kino.uicustomization.CustomButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -42,10 +43,12 @@ public class KassenWerkzeugUI
         BorderPane contentPane = new BorderPane();
         Scene scene = new Scene(contentPane, 1300, 650);
 
+
         SplitPane splitter = new SplitPane();
         splitter.setDividerPositions(0.25f);
 
         BorderPane vorstellungsauswahl = new BorderPane();
+        vorstellungsauswahl.setStyle("-fx-border-color: #343434");
         vorstellungsauswahl.setTop(datumWaehlerPane);
         vorstellungsauswahl.setCenter(vorstellungenPane);
 
@@ -58,6 +61,7 @@ public class KassenWerkzeugUI
         contentPane.setCenter(splitter);
         contentPane.setBottom(erstelleBeendenPanel());
 
+        scene.getStylesheets().add("de/hawhh/informatik/sml/kino/werkzeuge/kasse/Kasse.css");
         primaryStage.setScene(scene);
         _stage = primaryStage;
     }
@@ -85,11 +89,12 @@ public class KassenWerkzeugUI
     private Pane erstelleUeberschriftPanel()
     {
         StackPane topPanel = new StackPane();  // Kinder per Default zentriert
-        topPanel.setStyle("-fx-background-color: lightblue");
+        topPanel.setStyle("-fx-background-color: #F6B17A");
+        topPanel.setPadding(new Insets(10));
 
         Label label = new Label(TITEL);
-        label.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.ITALIC, 20));
-        label.setTextFill(Color.BLUE);
+        label.setFont(Font.font("Calibri", FontWeight.BOLD, FontPosture.ITALIC, 30));
+        label.setTextFill(Color.valueOf("#121212"));
 
         topPanel.getChildren().add(label);
 
@@ -104,8 +109,10 @@ public class KassenWerkzeugUI
         FlowPane bottomPane = new FlowPane();
         // bottomPane.setOrientation(Orientation.HORIZONTAL);
         bottomPane.setAlignment(Pos.CENTER_RIGHT);
-        bottomPane.setPadding(new Insets(5));
+        bottomPane.setPadding(new Insets(10));
+        bottomPane.setStyle("-fx-background-color: #343434");
         _beendenButton = new Button("Beenden");
+        CustomButton.setStyle(_beendenButton, false);
         bottomPane.getChildren().add(_beendenButton);
 
         return bottomPane;

@@ -46,6 +46,7 @@ class Platzplan extends GridPane
         setGridLinesVisible(true);
         setHgap(5);
         setVgap(5);
+        setStyle("-fx-background-color: #343434; ");
         erzeugePlatzAuswahlListener();
         _ausgewaehltePlaetze = new HashSet<Platz>();
         _selectionListener = new ArrayList<PlatzSelectionListener>();
@@ -155,6 +156,7 @@ class Platzplan extends GridPane
         for (int reihe = 0; reihe < anzahlReihen; reihe++)
         {
             Label label = new Label("Reihe " + (reihe + 1) + ":");
+            label.setStyle("-fx-text-fill: #f5f3f0;");
             add(label, 0, reihe);
             addGrowableRowConstraint();
             for (int sitz = 0; sitz < anzahlSitzeProReihe; sitz++)

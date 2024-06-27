@@ -1,0 +1,9 @@
+.split-pane *.vertical-grabber {
+    -fx-background-color: lime;
+    -fx-padding: 0.0em; /* This makes it flat */
+}
+
+.split-pane *.horizontal-grabber {
+    -fx-background-color: lime;
+    -fx-padding: 0.0em; /* This makes it flat */
+}

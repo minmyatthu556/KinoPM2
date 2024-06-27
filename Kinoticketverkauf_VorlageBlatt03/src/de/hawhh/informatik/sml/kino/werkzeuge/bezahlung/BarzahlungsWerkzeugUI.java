@@ -1,6 +1,7 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.bezahlung;
 
 import de.hawhh.informatik.sml.kino.fachwerte.Geldbetrag;
+import de.hawhh.informatik.sml.kino.uicustomization.CustomButton;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -10,6 +11,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.scene.text.Font;
+import javafx.scene.paint.Color;
 
 /**
  * Die Klasse BezahlungsWerkzeugUI stellt die Benutzeroberfläche für das Bezahlungswerkzeug bereit.
@@ -49,6 +52,9 @@ public class BarzahlungsWerkzeugUI
         _verkauf = new Button("Verkaufen");
         _beenden = new Button("Abbrechen");
 
+        CustomButton.setStyle(_verkauf, true);
+        CustomButton.setStyle(_beenden, false);
+
         GridPane.setConstraints(preisLabel, 0, 0);
         GridPane.setConstraints(zahlungslabel, 0, 1);
         GridPane.setConstraints(_rueckgeldLabel, 0, 2);
@@ -62,6 +68,7 @@ public class BarzahlungsWerkzeugUI
         _verkauf.setDisable(true);
 
         _scene = new Scene(pane);
+        _scene.getStylesheets().add("de/hawhh/informatik/sml/kino/werkzeuge/bezahlung/BarzahlungsWerkzeug.css");
         _stage.setScene(_scene);
     }
 

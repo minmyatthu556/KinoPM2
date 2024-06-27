@@ -16,9 +16,9 @@ import de.hawhh.informatik.sml.kino.fachwerte.Platz;
  */
 class PlatzButton extends Button
 {
-    private static final String FARBE_FREI = "lightgreen; ";
-    private static final String FARBE_VERKAUFT = "coral; ";
-    private static final String FARBE_AUSGEWAEHLT = "yellow; ";
+    private static final String FARBE_FREI = "#57A6A1; ";
+    private static final String FARBE_VERKAUFT = "#9E4784; ";
+    private static final String FARBE_AUSGEWAEHLT = "#F6B17A; ";
 
     private Platz _platz;
     private boolean _verkauft;
@@ -40,10 +40,11 @@ class PlatzButton extends Button
         _verkauft = false;
         _ausgewaehlt = false;
         setPrefWidth(28);
-        setFont(Font.font("Arial", FontWeight.NORMAL, 10));
+        setFont(Font.font("Calibri", FontWeight.NORMAL, 10));
         setStyle("-fx-background-color: darkgrey, " + FARBE_FREI +
                 "-fx-background-radius: 6, 5;" +
-                " -fx-background-insets: 0, 0 0 2 2;");
+                " -fx-background-insets: 0, 0 0 2 2;" +
+                "-fx-text-fill: #f5f3f0;");
     }
 
     /**

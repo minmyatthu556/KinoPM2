@@ -1,0 +1,18 @@
+.root {
+    -fx-background-color: #343434;
+}
+
+.label {
+    -fx-font-family: "Calibri"; /* Replace with your desired font */
+    -fx-font-size: 18px; /* Replace with your desired font size */
+    -fx-text-fill: #F5F3F0; /* Replace with your desired font color */
+}
+
+.text-field {
+    -fx-background-color: #F5F3F0; /* Replace with your desired background color */
+    -fx-font-size: 14px; /* Replace with your desired font size */
+    -fx-padding: 10px; /* Replace with your desired padding */
+    -fx-border-radius: 5; /* Replace with your desired border radius */
+    -fx-background-radius: 15; /* Replace with your desired background radius */
+}
+

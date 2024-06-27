@@ -1,5 +1,6 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.platzverkauf;
 
+import de.hawhh.informatik.sml.kino.uicustomization.CustomButton;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Bounds;
@@ -35,6 +36,7 @@ class PlatzVerkaufsWerkzeugUI
     public PlatzVerkaufsWerkzeugUI()
     {
         _hauptPanel = erstellePanel();
+        _hauptPanel.setStyle("-fx-background-color: #343434; ");
     }
 
     /**
@@ -59,8 +61,10 @@ class PlatzVerkaufsWerkzeugUI
         hauptPane.setCenter(scrPane);
 
         BorderPane southPane = new BorderPane();
+        southPane.setStyle("-fx-background-color: #343434;");;
         FlowPane preisPane = new FlowPane();
         _preisLabel = new Label();
+        _preisLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #f5f3f0;");
         preisPane.getChildren().add(_preisLabel);
         preisPane.setAlignment(Pos.CENTER_LEFT);
         preisPane.setPadding(new Insets(10));
@@ -68,8 +72,11 @@ class PlatzVerkaufsWerkzeugUI
         FlowPane buttonPane = new FlowPane();
         buttonPane.setAlignment(Pos.CENTER_RIGHT);
         _deselektierenButton = new Button("Deselektieren");
+        CustomButton.setStyle(_deselektierenButton);
         _verkaufenButton = new Button("Verkaufen");
+        CustomButton.setStyle(_verkaufenButton, true);
         _stornierenButton = new Button("Stornieren");
+        CustomButton.setStyle(_stornierenButton, false);
 
         buttonPane.setHgap(10);
         buttonPane.setPadding(new Insets(10));
