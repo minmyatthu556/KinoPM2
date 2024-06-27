@@ -32,7 +32,6 @@ public class BarzahlungsWerkzeugUI
      */
     public BarzahlungsWerkzeugUI(String title, String preis, String rueckgeld)
     {
-        System.out.println(rueckgeld);
         _stage = new Stage();
         _stage.initModality(Modality.APPLICATION_MODAL);
         _stage.setTitle(title);

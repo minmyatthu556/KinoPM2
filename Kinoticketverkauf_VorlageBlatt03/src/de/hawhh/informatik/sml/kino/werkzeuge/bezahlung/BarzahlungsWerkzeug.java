@@ -95,9 +95,11 @@ public class BarzahlungsWerkzeug
             }
 
             int rueckgeld = betrag - _preis;
-            _eb = new ErfolgreicheBezahlungsWerkzeug(rueckgeld, true);
+
             _istVerkauft = true;
             _ui.close();
+
+            _eb = new ErfolgreicheBezahlungsWerkzeug(rueckgeld, _istVerkauft);
             _eb.zeigeUI();
         });
     }

@@ -88,7 +88,6 @@ public class KassenWerkzeug
             System.out.println("Key pressed: " + event.getCode().toString());
             if (event.getCode().toString().equals("ENTER"))
             {
-                System.out.println(_vorstellungAuswaehlWerkzeug.getAusgewaehlteVorstellung().getAusgewaehltePlaetze());
                 _platzVerkaufsWerkzeug.handleEnter(_vorstellungAuswaehlWerkzeug.getAusgewaehlteVorstellung());
             }
             else if (event.getCode().toString().equals("ESCAPE"))
