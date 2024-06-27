@@ -1,6 +1,7 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.bezahlung;
 
 import de.hawhh.informatik.sml.kino.fachwerte.Geldbetrag;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,14 +22,17 @@ public class BarzahlungsWerkzeugUI
     private TextField _gegeben;
     private Scene _scene;
 
+    private Label _rueckgeldLabel;
+
     /**
      * Erstellt eine neue BezahlungsWerkzeugUI.
      *
      * @param title Der Titel des Fensters.
      * @param preis Der Preis, der angezeigt werden soll.
      */
-    public BarzahlungsWerkzeugUI(String title, String preis)
+    public BarzahlungsWerkzeugUI(String title, String preis, String rueckgeld)
     {
+        System.out.println(rueckgeld);
         _stage = new Stage();
         _stage.initModality(Modality.APPLICATION_MODAL);
         _stage.setTitle(title);
@@ -41,21 +45,34 @@ public class BarzahlungsWerkzeugUI
         Label preisLabel = new Label("Preis: " + preis + " €");
         Label zahlungslabel = new Label("Zahlungsbetrag eingeben (in Euro Cent): ");
         _gegeben = new TextField();
-        _verkauf = new Button("OK");
+        _rueckgeldLabel = new Label("Rückgeld: ");
+        _verkauf = new Button("Verkaufen");
         _beenden = new Button("Abbrechen");
 
         GridPane.setConstraints(preisLabel, 0, 0);
         GridPane.setConstraints(zahlungslabel, 0, 1);
+        GridPane.setConstraints(_rueckgeldLabel, 0, 2);
         GridPane.setConstraints(_gegeben, 1, 1);
-        GridPane.setConstraints(_verkauf, 1, 2);
-        GridPane.setConstraints(_beenden, 0, 2);
+        GridPane.setConstraints(_verkauf, 1, 3);
+        GridPane.setHalignment(_verkauf, HPos.RIGHT);
+        GridPane.setConstraints(_beenden, 0, 3);
 
-        pane.getChildren().addAll(preisLabel, zahlungslabel, _gegeben, _verkauf, _beenden);
+        pane.getChildren().addAll(preisLabel, zahlungslabel, _rueckgeldLabel, _gegeben, _verkauf, _beenden);
 
         _verkauf.setDisable(true);
 
         _scene = new Scene(pane);
         _stage.setScene(_scene);
+    }
+
+    public void updateRueckgeldInUI(String rueckgeld)
+    {
+        if (rueckgeld.isEmpty())
+        {
+            _rueckgeldLabel.setText("Rückgeld: ");
+            return;
+        }
+        _rueckgeldLabel.setText("Rückgeld: " + rueckgeld + " €");
     }
 
     public void setVerkaufButtonDisabled(boolean disabled)

@@ -352,15 +352,26 @@ public class Vorstellung
     {
         Set<Platz> vorherigeAusgewaehltePlaetze = getAusgewaehltePlaetze();
 
-        if (vorherigeAusgewaehltePlaetze.contains(platz))
+        if (platz != null)
         {
-            deselectPlatz(platz);
+            if (vorherigeAusgewaehltePlaetze.contains(platz))
+            {
+                deselectPlatz(platz);
+            }
+            else
+            {
+                selectPlatz(platz);
+            }
+        }
+        else
+        {
+            for (Platz p : plaetze)
+            {
+                selectPlatz(p);
+            }
         }
 
-        for (Platz p : plaetze)
-        {
-            selectPlatz(p);
-        }
+
     }
 
     public void selectPlatz(Platz p)

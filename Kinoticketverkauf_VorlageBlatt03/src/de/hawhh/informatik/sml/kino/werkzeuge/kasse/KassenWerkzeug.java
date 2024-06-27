@@ -61,6 +61,7 @@ public class KassenWerkzeug
 
         _ui.zeigeFenster();
         setzeAusgewaehlteVorstellung();
+
     }
 
     /**
@@ -82,6 +83,19 @@ public class KassenWerkzeug
     private void registriereUIAktionen()
     {
         _ui.getBeendenButton().setOnAction(ae -> _ui.schliesseFenster());
+
+        _ui.getScene().setOnKeyPressed(event -> {
+            System.out.println("Key pressed: " + event.getCode().toString());
+            if (event.getCode().toString().equals("ENTER"))
+            {
+                System.out.println(_vorstellungAuswaehlWerkzeug.getAusgewaehlteVorstellung().getAusgewaehltePlaetze());
+                _platzVerkaufsWerkzeug.handleEnter(_vorstellungAuswaehlWerkzeug.getAusgewaehlteVorstellung());
+            }
+            else if (event.getCode().toString().equals("ESCAPE"))
+            {
+                _platzVerkaufsWerkzeug.handleEscape(_vorstellungAuswaehlWerkzeug.getAusgewaehlteVorstellung());
+            }
+        });
     }
 
     /**

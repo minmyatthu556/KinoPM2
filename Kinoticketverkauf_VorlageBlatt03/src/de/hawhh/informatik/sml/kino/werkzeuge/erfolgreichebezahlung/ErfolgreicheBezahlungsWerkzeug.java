@@ -9,6 +9,8 @@ public class ErfolgreicheBezahlungsWerkzeug
 {
     private ErfolgreicheBezahlungsWerkzeugUI _ui;
 
+    private boolean istVerkaufErfolgreich;
+
     private Geldbetrag _rueckgeld;
 
     /**
@@ -16,10 +18,17 @@ public class ErfolgreicheBezahlungsWerkzeug
      *
      * @param rueckgeld Der Betrag des Rückgelds.
      */
-    public ErfolgreicheBezahlungsWerkzeug(int rueckgeld)
+    public ErfolgreicheBezahlungsWerkzeug(int rueckgeld, boolean istVerkaufErfolgreich)
     {
         _rueckgeld = Geldbetrag.get(rueckgeld);
-        _ui = new ErfolgreicheBezahlungsWerkzeugUI("Erfolgreicher Verkauf", _rueckgeld);
+        if (istVerkaufErfolgreich)
+        {
+            _ui = new ErfolgreicheBezahlungsWerkzeugUI("Erfolgreicher Verkauf", _rueckgeld, istVerkaufErfolgreich);
+        }
+        else
+        {
+            _ui = new ErfolgreicheBezahlungsWerkzeugUI("Erfolgreiche Stornierung", _rueckgeld, istVerkaufErfolgreich);
+        }
         okWurdeGedrueckt();
         reagiereAufEnter();
     }

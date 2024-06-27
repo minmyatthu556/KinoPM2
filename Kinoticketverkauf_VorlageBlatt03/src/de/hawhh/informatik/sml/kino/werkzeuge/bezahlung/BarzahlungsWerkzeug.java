@@ -21,6 +21,8 @@ public class BarzahlungsWerkzeug
     
     private boolean _istVerkauft;
 
+    private String _rueckgeld;
+
     /**
      * Erstellt ein neues BezahlungsWerkzeug.
      *
@@ -30,15 +32,15 @@ public class BarzahlungsWerkzeug
     {
         _preis = gesamtpreis;
         _preisGeldBetrag = Geldbetrag.get(gesamtpreis);
-        _ui = new BarzahlungsWerkzeugUI("Bezahlung", _preisGeldBetrag.getFormatiertenString());
-
+        _ui = new BarzahlungsWerkzeugUI("Bezahlung", _preisGeldBetrag.getFormatiertenString(), _rueckgeld);
+        _rueckgeld = "";
         _istVerkauft = false;
 
         _ui.getGegeben().textProperty().addListener((observable, oldValue, newValue) ->
         {
+            int gegeben;
             try
             {
-                int gegeben;
                 if (newValue.matches("\\d+,\\d{2}$"))
                 {
                     gegeben = Integer.parseInt(newValue.replace(",", ""));
@@ -47,8 +49,19 @@ public class BarzahlungsWerkzeug
                 {
                     gegeben = Integer.parseInt(newValue);
                 }
+                int rueckgeld = gegeben - _preis;
+                if (rueckgeld >= 0)
+                {
+                    _rueckgeld = Geldbetrag.get(rueckgeld).getFormatiertenString();
+                    _ui.updateRueckgeldInUI(_rueckgeld);
+                }
+                else
+                {
+                    _rueckgeld = "";
+                    _ui.updateRueckgeldInUI(_rueckgeld);
+                }
 
-                _ui.setVerkaufButtonDisabled(gegeben - _preis < 0);
+                _ui.setVerkaufButtonDisabled(rueckgeld < 0);
             }
             catch (NumberFormatException e)
             {
@@ -82,7 +95,7 @@ public class BarzahlungsWerkzeug
             }
 
             int rueckgeld = betrag - _preis;
-            _eb = new ErfolgreicheBezahlungsWerkzeug(rueckgeld);
+            _eb = new ErfolgreicheBezahlungsWerkzeug(rueckgeld, true);
             _istVerkauft = true;
             _ui.close();
             _eb.zeigeUI();

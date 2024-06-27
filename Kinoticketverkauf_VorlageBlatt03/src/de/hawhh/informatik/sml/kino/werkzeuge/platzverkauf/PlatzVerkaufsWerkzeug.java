@@ -4,6 +4,7 @@ import java.util.Set;
 
 import de.hawhh.informatik.sml.kino.fachwerte.Geldbetrag;
 import de.hawhh.informatik.sml.kino.werkzeuge.bezahlung.BarzahlungsWerkzeug;
+import de.hawhh.informatik.sml.kino.werkzeuge.erfolgreichebezahlung.ErfolgreicheBezahlungsWerkzeug;
 import javafx.scene.layout.Pane;
 import de.hawhh.informatik.sml.kino.fachwerte.Platz;
 import de.hawhh.informatik.sml.kino.materialien.Kinosaal;
@@ -39,7 +40,6 @@ public class PlatzVerkaufsWerkzeug
         registriereUIAktionen();
         // Am Anfang wird keine Vorstellung angezeigt:
         setVorstellung(null);
-
     }
 
     /**
@@ -58,7 +58,6 @@ public class PlatzVerkaufsWerkzeug
      */
     private void registriereUIAktionen()
     {
-
         _ui.getVerkaufenButton().setOnAction(ae -> verkaufePlaetze(_vorstellung));
 
         _ui.getStornierenButton().setOnAction(ae -> stornierePlaetze(_vorstellung));
@@ -93,12 +92,20 @@ public class PlatzVerkaufsWerkzeug
      */
     private void aktualisierePreisanzeige(Set<Platz> plaetze)
     {
+        if (_vorstellung == null)
+        {
+            return;
+        }
 
+        int preis = _vorstellung.getPreisFuerPlaetze(plaetze);
+        Geldbetrag preisGeldbetrag = Geldbetrag.get(preis);
         if (istVerkaufenMoeglich(plaetze))
         {
-            int preis = _vorstellung.getPreisFuerPlaetze(plaetze);
-            Geldbetrag preisGeldbetrag = Geldbetrag.get(preis);
             _ui.getPreisLabel().setText("Gesamtpreis: " + preisGeldbetrag.getFormatiertenString() + " €");
+        }
+        else if (istStornierenMoeglich(plaetze))
+        {
+            _ui.getPreisLabel().setText("Gesamtpreis: -" + preisGeldbetrag.getFormatiertenString() + " €");
         }
         else
         {
@@ -179,7 +186,6 @@ public class PlatzVerkaufsWerkzeug
     {
         _vorstellung = vorstellung;
         _ausgewaehltePlaetze = _vorstellung.getAusgewaehltePlaetze();
-        System.out.println(_ausgewaehltePlaetze);
         int gesamtpreis = _vorstellung.getPreisFuerPlaetze(_ausgewaehltePlaetze);
 
         BarzahlungsWerkzeug barzahlungsWerkzeug = new BarzahlungsWerkzeug(gesamtpreis);
@@ -189,6 +195,7 @@ public class PlatzVerkaufsWerkzeug
             vorstellung.verkaufePlaetze(_ausgewaehltePlaetze);
             aktualisierePlatzplan();
         }
+
     }
 
     private void updateSelectedUI(Set<Platz> plaetze, Platz platz)
@@ -203,13 +210,36 @@ public class PlatzVerkaufsWerkzeug
     private void stornierePlaetze(Vorstellung vorstellung)
     {
         Set<Platz> plaetze = _ui.getPlatzplan().getAusgewaehltePlaetze();
+        ErfolgreicheBezahlungsWerkzeug storno = new ErfolgreicheBezahlungsWerkzeug(vorstellung.getPreisFuerPlaetze(plaetze), false);
+        storno.zeigeUI();
         vorstellung.stornierePlaetze(plaetze);
         aktualisierePlatzplan();
     }
 
-    private void deselektierePlaetze(Vorstellung vorstellung)
+    public void deselektierePlaetze(Vorstellung vorstellung)
     {
         vorstellung.deselektiereAllePlaetze();
         aktualisierePlatzplan();
+    }
+
+    public void handleEnter(Vorstellung vorstellung)
+    {
+        _vorstellung = vorstellung;
+        _ausgewaehltePlaetze = _vorstellung.getAusgewaehltePlaetze();
+
+        if (istVerkaufenMoeglich(_ausgewaehltePlaetze))
+        {
+            verkaufePlaetze(_vorstellung);
+        }
+        else if (istStornierenMoeglich(_ausgewaehltePlaetze))
+        {
+            stornierePlaetze(_vorstellung);
+        }
+    }
+
+    public void handleEscape(Vorstellung vorstellung)
+    {
+        _vorstellung = vorstellung;
+        deselektierePlaetze(_vorstellung);
     }
 }

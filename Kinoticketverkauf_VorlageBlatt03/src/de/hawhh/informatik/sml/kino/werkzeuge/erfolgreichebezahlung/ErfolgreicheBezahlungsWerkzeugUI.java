@@ -27,16 +27,24 @@ public class ErfolgreicheBezahlungsWerkzeugUI
      * @param title Der Titel des Fensters.
      * @param rueckgeld Der Betrag des Rückgelds.
      */
-    public ErfolgreicheBezahlungsWerkzeugUI(String title, Geldbetrag rueckgeld)
+    public ErfolgreicheBezahlungsWerkzeugUI(String title, Geldbetrag rueckgeld, boolean istVerkaufErfolgreich)
     {
         _stage = new Stage();
         _stage.initModality(Modality.APPLICATION_MODAL);
         _stage.setTitle(title);
 
-       VBox pane = new VBox();
+        VBox pane = new VBox();
 
-        _message = new Label("Verkauf wurde erfolgreich abgeschlossen.");
-        _rueckgeldLabel = new Label("Rückgeld: " + rueckgeld + " €");
+        if (istVerkaufErfolgreich)
+        {
+            _message = new Label("Verkauf wurde erfolgreich abgeschlossen.");
+            _rueckgeldLabel = new Label("Rückgeld: " + rueckgeld + " €");
+        }
+        else
+        {
+            _message = new Label("Stornierung wurde erfolgreich abgeschlossen.");
+            _rueckgeldLabel = new Label("Summe: -" + rueckgeld + " €");
+        }
         _okButton = new Button("OK");
 
         _stage.setWidth(350);

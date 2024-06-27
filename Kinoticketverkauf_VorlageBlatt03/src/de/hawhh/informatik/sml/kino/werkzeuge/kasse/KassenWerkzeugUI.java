@@ -111,6 +111,11 @@ public class KassenWerkzeugUI
         return bottomPane;
     }
 
+
+    protected Scene getScene()
+    {
+        return _stage.getScene();
+    }
     /**
      * Liefert den Beenden-Button.
      */
