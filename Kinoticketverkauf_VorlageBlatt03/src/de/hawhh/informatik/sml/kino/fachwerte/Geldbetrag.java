@@ -62,6 +62,7 @@ public final class Geldbetrag implements Comparable<Geldbetrag>
 
     /**
      * Liefert einen zweistelligen Centbetrag zurück.
+     * Vom Mediathek kopiert
      *
      * @return eine String-Repräsentation des Cent-Anteils.
      */
@@ -76,13 +77,32 @@ public final class Geldbetrag implements Comparable<Geldbetrag>
         return result;
     }
 
+    /**
+     * Addiert den übergebenen Geldbetrag zum aktuellen Geldbetrag und gibt das Ergebnis als neuen Geldbetrag zurück.
+     *
+     * @param otherGb Der zu addierende Geldbetrag.
+     * @require otherGb != null
+     * @return Das Ergebnis der Addition als neuer Geldbetrag.
+     */
     public Geldbetrag addiere(Geldbetrag otherGb)
     {
+        assert otherGb != null : "Vorbedingung verletzt: otherGb != null";
+
         return new Geldbetrag((getEuroAnteil() * 100 + getCentAnteil()) + (otherGb.getEuroAnteil() * 100 + otherGb.getCentAnteil()));
     }
 
+    /**
+     * Subtrahiert den übergebenen Geldbetrag vom aktuellen Geldbetrag und gibt das Ergebnis als neuen Geldbetrag zurück, sofern das Ergebnis nicht negativ ist.
+     *
+     * @param otherGb Der zu subtrahierende Geldbetrag.
+     * @require otherGb != null
+     * @return Das Ergebnis der Subtraktion als neuer Geldbetrag.
+     * @throws IllegalArgumentException Wenn das Ergebnis der Subtraktion negativ wäre.
+     */
     public Geldbetrag subtrahiere(Geldbetrag otherGb)
     {
+        assert otherGb != null : "Vorbedingung verletzt: otherGb != null";
+
         if (compareTo(otherGb) < 0)
         {
             throw new IllegalArgumentException("Der resultierende Geldbetrag darf nicht negativ sein.");
@@ -91,11 +111,26 @@ public final class Geldbetrag implements Comparable<Geldbetrag>
         return new Geldbetrag((getEuroAnteil() * 100 + getCentAnteil()) - (otherGb.getEuroAnteil() * 100 + otherGb.getCentAnteil()));
     }
 
+    /**
+     * Multipliziert den aktuellen Geldbetrag mit dem übergebenen Faktor und gibt das Ergebnis als neuen Geldbetrag zurück.
+     *
+     * @param faktor Der Multiplikationsfaktor.
+     * @require faktor >= 0
+     * @return Das Ergebnis der Multiplikation als neuer Geldbetrag.
+     */
     public Geldbetrag multipliziere(int faktor)
     {
+        assert faktor >= 0 : "Vorbedingung verletzt: faktor >= 0";
+
         return new Geldbetrag((getEuroAnteil() * 100 + getCentAnteil()) * faktor);
     }
 
+    /**
+     * Generiert einen Hashcode für das Geldbetrag-Objekt.
+     *
+     * @return Der generierte Hashcode.
+     */
+    // vom Meditathek kopiert
     @Override
     public int hashCode()
     {
@@ -106,6 +141,12 @@ public final class Geldbetrag implements Comparable<Geldbetrag>
         return result;
     }
 
+    /**
+     * Überprüft, ob das übergebene Objekt gleich dem aktuellen Geldbetrag-Objekt ist.
+     *
+     * @param obj Das zu vergleichende Objekt.
+     * @return true, wenn das übergebene Objekt gleich dem aktuellen Geldbetrag-Objekt ist, sonst false.
+     */
     @Override
     public boolean equals(Object obj)
     {

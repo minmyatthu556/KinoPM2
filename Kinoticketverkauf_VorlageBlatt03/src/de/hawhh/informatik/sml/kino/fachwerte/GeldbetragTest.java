@@ -11,6 +11,9 @@ import static org.junit.Assert.*;
  */
 public class GeldbetragTest {
 
+    /**
+     * Testet die Erstellung von Geldbetrag-Objekten mit verschiedenen Beträgen.
+     */
     @Test
     public final void testGeldbetrag() {
         Geldbetrag betrag = Geldbetrag.get(100);
@@ -34,6 +37,9 @@ public class GeldbetragTest {
         assertEquals("1,01", betrag.getFormatiertenString());
     }
 
+    /**
+     * Testet die Gleichheit und den Hashcode von Geldbetrag-Objekten.
+     */
     @Test
     public final void testEqualsHashcode() {
         Geldbetrag betrag1 = Geldbetrag.get(100);
@@ -50,6 +56,9 @@ public class GeldbetragTest {
         assertFalse(betrag1.hashCode() == betrag4.hashCode());
     }
 
+    /**
+     * Testet die compareTo-Methode von Geldbetrag-Objekten.
+     */
     @Test
     public final void testCompareTo() {
         Geldbetrag betrag1 = Geldbetrag.get(100);
@@ -63,6 +72,9 @@ public class GeldbetragTest {
         assertTrue(betrag1.compareTo(betrag4) > 0);
     }
 
+    /**
+     * Testet die Additionsfunktionalität von Geldbetrag-Objekten.
+     */
     @Test
     public final void testAddiere()
     {
@@ -85,6 +97,7 @@ public class GeldbetragTest {
         assertEquals(Geldbetrag.get(50), betrag1.subtrahiere(betrag3));
 
         Geldbetrag betrag4 = Geldbetrag.get(150);
+        // kopiert vom Google
         assertThrows(IllegalArgumentException.class, () -> betrag1.subtrahiere(betrag4));
     }
 

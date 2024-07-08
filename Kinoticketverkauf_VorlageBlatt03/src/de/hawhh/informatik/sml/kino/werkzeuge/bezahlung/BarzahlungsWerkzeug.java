@@ -14,26 +14,29 @@ public class BarzahlungsWerkzeug
     private BarzahlungsWerkzeugUI _ui;
 
     private int _preis;
-
+    // TODO
     private Geldbetrag _preisGeldBetrag;
 
     private ErfolgreicheBezahlungsWerkzeug _eb;
     
     private boolean _istVerkauft;
 
-    private String _rueckgeld;
+    private String _rueckgeldStr;
 
     /**
      * Erstellt ein neues BezahlungsWerkzeug.
      *
      * @param gesamtpreis Der Preis, der bezahlt werden soll.
+     * @require gesamtpreis >= 0;
      */
     public BarzahlungsWerkzeug(int gesamtpreis)
     {
+        assert gesamtpreis >= 0 : "Vorbedingung verletzt: gesamtpreis >= 0";
+
         _preis = gesamtpreis;
         _preisGeldBetrag = Geldbetrag.get(gesamtpreis);
-        _ui = new BarzahlungsWerkzeugUI("Bezahlung", _preisGeldBetrag.getFormatiertenString(), _rueckgeld);
-        _rueckgeld = "";
+        _ui = new BarzahlungsWerkzeugUI("Bezahlung", _preisGeldBetrag.getFormatiertenString());
+        _rueckgeldStr = "";
         _istVerkauft = false;
 
         _ui.getGegeben().textProperty().addListener((observable, oldValue, newValue) ->
@@ -49,16 +52,17 @@ public class BarzahlungsWerkzeug
                 {
                     gegeben = Integer.parseInt(newValue);
                 }
+
                 int rueckgeld = gegeben - _preis;
                 if (rueckgeld >= 0)
                 {
-                    _rueckgeld = Geldbetrag.get(rueckgeld).getFormatiertenString();
-                    _ui.updateRueckgeldInUI(_rueckgeld);
+                    _rueckgeldStr = Geldbetrag.get(rueckgeld).getFormatiertenString();
+                    _ui.updateRueckgeldInUI(_rueckgeldStr);
                 }
                 else
                 {
-                    _rueckgeld = "";
-                    _ui.updateRueckgeldInUI(_rueckgeld);
+                    _rueckgeldStr = "";
+                    _ui.updateRueckgeldInUI(_rueckgeldStr);
                 }
 
                 _ui.setVerkaufButtonDisabled(rueckgeld < 0);
@@ -115,7 +119,6 @@ public class BarzahlungsWerkzeug
 
     public void reagiereAufEnter()
     {
-
         EventHandler<KeyEvent> enterHandler = ke -> {
             if (ke.getCode() == KeyCode.ENTER)
             {

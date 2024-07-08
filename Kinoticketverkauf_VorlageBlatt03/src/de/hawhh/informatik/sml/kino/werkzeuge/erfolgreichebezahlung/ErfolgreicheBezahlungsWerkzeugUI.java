@@ -1,6 +1,5 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.erfolgreichebezahlung;
 
-import de.hawhh.informatik.sml.kino.fachwerte.Geldbetrag;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -26,8 +25,9 @@ public class ErfolgreicheBezahlungsWerkzeugUI
      *
      * @param title Der Titel des Fensters.
      * @param rueckgeld Der Betrag des Rückgelds.
+     * @param istVerkaufErfolgreich Ob der Verkauf erfolgreich war.
      */
-    public ErfolgreicheBezahlungsWerkzeugUI(String title, Geldbetrag rueckgeld, boolean istVerkaufErfolgreich)
+    public ErfolgreicheBezahlungsWerkzeugUI(String title, String rueckgeld, boolean istVerkaufErfolgreich)
     {
         _stage = new Stage();
         _stage.initModality(Modality.APPLICATION_MODAL);

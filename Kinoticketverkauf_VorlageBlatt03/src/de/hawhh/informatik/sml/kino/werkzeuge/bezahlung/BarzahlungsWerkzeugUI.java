@@ -1,6 +1,5 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.bezahlung;
 
-import de.hawhh.informatik.sml.kino.fachwerte.Geldbetrag;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -30,9 +29,8 @@ public class BarzahlungsWerkzeugUI
      * @param title Der Titel des Fensters.
      * @param preis Der Preis, der angezeigt werden soll.
      */
-    public BarzahlungsWerkzeugUI(String title, String preis, String rueckgeld)
+    public BarzahlungsWerkzeugUI(String title, String preis)
     {
-        System.out.println(rueckgeld);
         _stage = new Stage();
         _stage.initModality(Modality.APPLICATION_MODAL);
         _stage.setTitle(title);
@@ -65,6 +63,11 @@ public class BarzahlungsWerkzeugUI
         _stage.setScene(_scene);
     }
 
+    /**
+     * Setzt den Rückgeld-Label.
+     *
+     * @param rueckgeld Der Betrag des Rückgelds.
+     */
     public void updateRueckgeldInUI(String rueckgeld)
     {
         if (rueckgeld.isEmpty())
@@ -75,6 +78,11 @@ public class BarzahlungsWerkzeugUI
         _rueckgeldLabel.setText("Rückgeld: " + rueckgeld + " €");
     }
 
+    /**
+     * Setzt den Verkauf-Button auf enabled oder disabled.
+     *
+     * @param disabled Der Wert, ob der Button disabled sein soll.
+     */
     public void setVerkaufButtonDisabled(boolean disabled)
     {
     _verkauf.setDisable(disabled);

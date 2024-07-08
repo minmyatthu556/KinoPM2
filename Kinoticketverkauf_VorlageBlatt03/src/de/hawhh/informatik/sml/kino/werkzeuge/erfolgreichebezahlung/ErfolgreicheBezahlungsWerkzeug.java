@@ -10,24 +10,29 @@ public class ErfolgreicheBezahlungsWerkzeug
     private ErfolgreicheBezahlungsWerkzeugUI _ui;
 
     private boolean istVerkaufErfolgreich;
-
+    //TODO
     private Geldbetrag _rueckgeld;
 
     /**
      * Erstellt ein neues ErfolgreicheBezahlungsWerkzeug.
      *
      * @param rueckgeld Der Betrag des Rückgelds.
+     * @param istVerkaufErfolgreich Ob der Verkauf erfolgreich war.
+     * @require rueckgeld != null
      */
     public ErfolgreicheBezahlungsWerkzeug(int rueckgeld, boolean istVerkaufErfolgreich)
     {
+        assert rueckgeld >= 0 : "Vorbedingung verletzt: rueckgeld >= 0";
+
         _rueckgeld = Geldbetrag.get(rueckgeld);
+
         if (istVerkaufErfolgreich)
         {
-            _ui = new ErfolgreicheBezahlungsWerkzeugUI("Erfolgreicher Verkauf", _rueckgeld, istVerkaufErfolgreich);
+            _ui = new ErfolgreicheBezahlungsWerkzeugUI("Erfolgreicher Verkauf", _rueckgeld.getFormatiertenString(), true);
         }
         else
         {
-            _ui = new ErfolgreicheBezahlungsWerkzeugUI("Erfolgreiche Stornierung", _rueckgeld, istVerkaufErfolgreich);
+            _ui = new ErfolgreicheBezahlungsWerkzeugUI("Erfolgreiche Stornierung", _rueckgeld.getFormatiertenString(), false);
         }
         okWurdeGedrueckt();
         reagiereAufEnter();

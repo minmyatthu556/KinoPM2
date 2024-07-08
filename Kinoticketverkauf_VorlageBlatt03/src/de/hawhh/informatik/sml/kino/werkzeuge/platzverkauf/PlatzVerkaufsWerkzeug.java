@@ -1,6 +1,7 @@
 package de.hawhh.informatik.sml.kino.werkzeuge.platzverkauf;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import de.hawhh.informatik.sml.kino.fachwerte.Geldbetrag;
 import de.hawhh.informatik.sml.kino.werkzeuge.bezahlung.BarzahlungsWerkzeug;
@@ -58,7 +59,22 @@ public class PlatzVerkaufsWerkzeug
      */
     private void registriereUIAktionen()
     {
-        _ui.getVerkaufenButton().setOnAction(ae -> verkaufePlaetze(_vorstellung));
+        _ui.getVerkaufenButton().setOnAction(ae -> {
+
+            Thread zaehlerThread = new Thread(new Zaehler());
+            zaehlerThread.start();
+//            Zaehler zaehler = new Zaehler();
+//            zaehler.run();
+//            try
+//            {
+//                zaehlerThread.join();
+//            }
+//            catch (InterruptedException e)
+//            {
+//                throw new RuntimeException(e);
+//            }
+            verkaufePlaetze(_vorstellung);
+        });
 
         _ui.getStornierenButton().setOnAction(ae -> stornierePlaetze(_vorstellung));
 
@@ -74,6 +90,7 @@ public class PlatzVerkaufsWerkzeug
      * hat.
      * 
      * @param plaetze die jetzt ausgewählten Plätze.
+     * @param platz der zuletzt ausgewählte Platz.
      */
     private void reagiereAufNeuePlatzAuswahl(Set<Platz> plaetze, Platz platz)
     {
@@ -82,13 +99,16 @@ public class PlatzVerkaufsWerkzeug
         _ui.getDeselektButton().setDisable(plaetze.isEmpty());
         if (_vorstellung != null)
         {
-            updateSelectedUI(plaetze, platz);
+            _ausgewaehltePlaetze = plaetze;
+            _vorstellung.updateAusgewaehltePlaetze(_ausgewaehltePlaetze, platz);
         }
         aktualisierePreisanzeige(plaetze);
     }
 
     /**
      * Aktualisiert den anzuzeigenden Gesamtpreis
+     *
+     * @param plaetze die ausgewählten Plätze
      */
     private void aktualisierePreisanzeige(Set<Platz> plaetze)
     {
@@ -98,6 +118,7 @@ public class PlatzVerkaufsWerkzeug
         }
 
         int preis = _vorstellung.getPreisFuerPlaetze(plaetze);
+        //TODO
         Geldbetrag preisGeldbetrag = Geldbetrag.get(preis);
         if (istVerkaufenMoeglich(plaetze))
         {
@@ -115,6 +136,8 @@ public class PlatzVerkaufsWerkzeug
 
     /**
      * Prüft, ob die angegebenen Plätze alle storniert werden können.
+     *
+     * @param plaetze die zu stornierenden Plätze
      */
     private boolean istStornierenMoeglich(Set<Platz> plaetze)
     {
@@ -123,6 +146,8 @@ public class PlatzVerkaufsWerkzeug
 
     /**
      * Prüft, ob die angegebenen Plätze alle verkauft werden können.
+     *
+     * @param plaetze die zu verkaufenden Plätze
      */
     private boolean istVerkaufenMoeglich(Set<Platz> plaetze)
     {
@@ -133,6 +158,8 @@ public class PlatzVerkaufsWerkzeug
      * Setzt die Vorstellung. Sie ist das Material dieses Werkzeugs. Wenn die
      * Vorstellung gesetzt wird, muss die Anzeige aktualisiert werden. Die
      * Vorstellung darf auch null sein.
+     *
+     * @param vorstellung die Vorstellung
      */
     public void setVorstellung(Vorstellung vorstellung)
     {
@@ -195,13 +222,6 @@ public class PlatzVerkaufsWerkzeug
             vorstellung.verkaufePlaetze(_ausgewaehltePlaetze);
             aktualisierePlatzplan();
         }
-
-    }
-
-    private void updateSelectedUI(Set<Platz> plaetze, Platz platz)
-    {
-        _ausgewaehltePlaetze = plaetze;
-        _vorstellung.updateAusgewaehltePlaetze(_ausgewaehltePlaetze, platz);
     }
 
     /**
